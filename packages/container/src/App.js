@@ -8,15 +8,16 @@ import { createBrowserHistory } from "history";
 import Header from "./components/Header";
 import Progress from "./components/Progress";
 
-const Marketing = lazy(() => import("./components/MarketingApp"));
-const Auth = lazy(() => import("./components/AuthApp"));
-const Dashboard = lazy(() => import("./components/DashboardApp"));
+// Module federated components will break because of lack of next-mf support in NextJs, hence commented out
+// const Marketing = lazy(() => import("./components/MarketingApp"));
+// const Auth = lazy(() => import("./components/AuthApp"));
+// const Dashboard = lazy(() => import("./components/DashboardApp"));
 
 const generateClassName = createGenerateClassName({
   productionPrefix: "co",
 });
 
-const history = createBrowserHistory();
+const history = typeof window !== 'undefined' ? createBrowserHistory() : null;
 
 export default () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -35,7 +36,8 @@ export default () => {
               isSignedIn={isSignedIn}
               onSignOut={() => setIsSignedIn(false)}
             />
-            <Suspense fallback={<Progress />}>
+            {/* Module federated routes commented due to NextJs support issues */}
+            {/* <Suspense fallback={<Progress />}>
               <Switch>
                 <Route path="/auth">
                   <Auth onSignIn={() => setIsSignedIn(true)} />
@@ -48,7 +50,7 @@ export default () => {
                   <Marketing />
                 </Route>
               </Switch>
-            </Suspense>
+            </Suspense> */}
           </div>
         </Router>
       </StylesProvider>
